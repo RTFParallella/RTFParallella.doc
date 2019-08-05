@@ -43,6 +43,21 @@ steps are as follows:
 
    sudo ln -s esdk.2016.11 esdk
 
+*	open the bash start up file 
+
+.. code-block:: bash
+
+   sudo nano ~/.bashrc 
+
+*	Append the following to the end of the file
+
+.. code-block:: bash
+
+   EPIPHANY_HOME=/opt/adapteva/esdk
+   . ${EPIPHANY_HOME}/setup.sh
+
+*	restart terminal (to allow bash to intialize again)
+
 *	For ARM code compilation, a gnubeahif cross compiler is needed. download the Linaro toolchain for cross compilation `here <https://releases.linaro.org/components/toolchain/binaries/7.2-2017.11/arm-linux-gnueabihf/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf.tar.xz>`_.
 
 *	unzip the tool chain tar in the following folder
@@ -59,5 +74,13 @@ steps are as follows:
 
 .. image:: screenshots/git_import.png
 
+*	enter the URL of RFTP repository and import the project. 
+
+*	test the setup by trying to build the project. 
+
+Notes
+--------------------------------
+
+It is important to run eclipse from the terminal (to make sure bash is initialized), to allow make file invcation from within eclipse to recognize e-gcc (GCC compiler for Epiphany processor).
 
 
