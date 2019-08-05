@@ -11,9 +11,10 @@ Real Time Framework Parallella : documentation
    :caption: Contents:
 .. toctree::
    :maxdepth: 2
+   
+   introduction
 
-   test
-
+   parallella_setup
 
 
 Indices and tables
