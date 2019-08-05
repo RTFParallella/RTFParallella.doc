@@ -10,9 +10,12 @@ Real Time Framework Parallella : documentation
    :maxdepth: 2
    :caption: Contents:
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    
    introduction
 
    parallella_setup
 
+   parallella_deployment
+
+   

@@ -6,8 +6,20 @@ This chapter will detail the process of setting up all tooling required for deve
 
 This setup is intended to be run on a linux machine, The steps shown here have been realized on an Ubuntu 18.04 system, it should also work with any other distributions -and versions- of linux.
 
-Cross compilation setup
----------------------------
+Dependencies:
+--------------------------
+
+RTFP requires the following dependencies to allow successful compilation and deployment of binaries generated using the framework:
+
+*	ESDK (Epiphany SDK) : v2016.11.
+*	Eclipse for C/C++ developers. 
+*	Linaro cross GCC toolchain.
+
+
+
+
+Cross compilation setup (steps):
+------------------------------------
 
 This framework usually requires cross compilation on a host machnine (development machine) and deployment to the Parallella board. 
 
@@ -22,7 +34,6 @@ steps are as follows:
 	*	armv7l: for compilation on the parallella board (this version has an arm-compatible GCC).
 	*	x86-64: This is the version that was used for development of RTFP and it must be used for cross compilation of Parallella binaries on thelocal machine. 
 	*	x86-64: This version could be used for simulating the operation of parallella on the local machine (requires at least 8GB of ram, for more details on that, refer to this `repository <https://github.com/parallella/parallella-examples/tree/master/simulator-tutorial>`_).
-
 
 *	Create a directory at
 
@@ -82,5 +93,6 @@ Notes
 --------------------------------
 
 It is important to run eclipse from the terminal (to make sure bash is initialized), to allow make file invcation from within eclipse to recognize e-gcc (GCC compiler for Epiphany processor).
+
 
 
