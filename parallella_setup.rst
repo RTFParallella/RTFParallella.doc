@@ -1,6 +1,6 @@
-############
+###########################
 Adapteva Parallella setup 
-############
+###########################
 
 This chapter will detail the process of setting up all tooling required for development on the parallella board for RTFP.
 
@@ -20,7 +20,44 @@ steps are as follows:
 *	The ESDK is released in 3 versions:
 
 	*	armv7l: for compilation on the parallella board (this version has an arm-compatible GCC).
-	*	x86-64: This is the version that was used for development of RTFP and it must be used for cross compilation of Parallella binaries on thelocal
-				machine. 
-	*	x86-64: This version could be used for simulating the operation of parallella on the local machine (requires at least 8GB of ram, for more details on
-				that, refer to this repository).
+	*	x86-64: This is the version that was used for development of RTFP and it must be used for cross compilation of Parallella binaries on thelocal machine. 
+	*	x86-64: This version could be used for simulating the operation of parallella on the local machine (requires at least 8GB of ram, for more details on that, refer to this `repository <https://github.com/parallella/parallella-examples/tree/master/simulator-tutorial>`_).
+
+
+*	Create a directory at
+
+.. code-block:: bash
+
+   /opt/adapteva
+
+*	unzip the tar.gz file here using the following command
+
+.. code-block:: bash
+
+   tar xf esdk.2016.11.x86_64.tar.gz
+
+
+*	create a soft link for the ESDK folder, this step is optional, but wil simplify further operations as it is easier to type than the full name of the ESDK folder
+
+.. code-block:: bash
+
+   sudo ln -s esdk.2016.11 esdk
+
+*	For ARM code compilation, a gnubeahif cross compiler is needed. download the Linaro toolchain for cross compilation `here <https://releases.linaro.org/components/toolchain/binaries/7.2-2017.11/arm-linux-gnueabihf/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf.tar.xz>`_.
+
+*	unzip the tool chain tar in the following folder
+
+.. code-block:: bash
+
+   /opt/linaro
+
+*	Download Eclipse for C/C++ developers `here <https://www.eclipse.org/downloads/packages/>`_.
+
+*	open eclipse 
+
+*	File -> import -> git -> projects from git -> next
+
+.. image:: screenshots/git_import.png
+
+
+

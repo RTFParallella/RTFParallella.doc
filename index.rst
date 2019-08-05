@@ -10,16 +10,9 @@ Real Time Framework Parallella : documentation
    :maxdepth: 2
    :caption: Contents:
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    introduction
 
    parallella_setup
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
