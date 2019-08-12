@@ -21,4 +21,23 @@ This framework uses Epiphany Software Development Kit (ESDK). the latest ESDK ve
 How to use RTFP
 -----------------------------
 
-RTFP is designed to be used with AMALTHEA models (mostly used with APP4MC), 
+RTFP is designed to be used with AMALTHEA models (constructed and analyze using APP4MC). 
+
+With this in mind, in order to use RTFP, the following steps can generally be used:
+
+1.	Amalthea model is constructed and verified in APP4MC using analysis plugins, visualization plugins... etc. 
+
+2.	Tasks attributes are used to construct tasks in RTFP. 
+
+3.	Task and memory operation code (copying labels, etc) are constructed. 
+
+4.	Runnable code is constructed. 
+
+5.	Shared memory is allocated statically. 
+
+6.	RTOS tasks are created using the AmaltheaTask objects created in step 2
+
+7.	communication between the epiphany coprocessor and the host is defined (optional)
+
+8. constarints are added on task status data to benchmark the system and verify real time aspects. 
+

@@ -14,6 +14,8 @@ Real Time Framework Parallella : documentation
    
    introduction
 
+   parallella_hardware
+
    parallella_setup
 
    parallella_deployment
