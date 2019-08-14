@@ -20,6 +20,7 @@ All labels of the same type will be allocated to an array of that type. Accessin
 
 This figure shows the memory model of DRAM on parallella. 
 
+.. image:: screenshots/shared_mem_model.png
 
 Shared memory initialization and allocation in RTFP
 ------------------------------------------------------------
