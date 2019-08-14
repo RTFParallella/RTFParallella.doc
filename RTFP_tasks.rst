@@ -62,7 +62,7 @@ arguments:
 
 *	cInHandler	: pointer to the function that creates a copy of shared varialbles (labels) on the task stack. This function will be called at the beginning of every new instance of a task.
 
-*	cOutHandler	: pointer to the functions that returns the local copy of shred variables into shared memory. (write operation).
+*	cOutHandler	: pointer to the functions that returns the local copy of shared variables into shared memory. (write operation).
 
 *	period		: period of the task in ticks 
 
