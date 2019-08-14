@@ -9,16 +9,15 @@ In real time multi-core systems, it is essential to realize separate tasks that 
 
 Since it was based on FreeRTOS, RTFP has the semantics of OSEK within the FreeRTOS kernel, with different names 
 
-*	Running:
+*	Running
+*	Waiting
+*	suspended
+*	Ready
 
-*	Blocked:
+For more detailed description of task state model, refer to the `OSEK <https://www.irisa.fr/alf/downloads/puaut/TPNXT/images/os223.pdf>`_ specifications.
+This diagram shows the transition between task states.
 
-*	Waiting:
-
-*	Ready:
-
-TODO: explain the different states.
-
+.. image:: screenshots/task_state.png
 
 RMS task scheduling
 -----------------------
