@@ -25,13 +25,20 @@ RMS task scheduling
 
 RTFP will schedule tasks according to RMS (Rate Monotonic Scheduling) policy by default. 
 
-TODO: is it required to elaborate further on RMS and how it works?.
+Resterictions when using RTFP with RMS scheduling:
 
-EDF task scheduling
-----------------------
+*	priorities of all tasks are unique.
 
-TODO: explain EDF and how to choose it during compilation time. 
+*	the task with the smallest period must have highest priority.
 
+*	Priorities decrease by 1 each time for the other tasks depending on peiorities. 
+
+*	Highest priority is number of all tasks running on a core. 
+
+Fixed priority task scheduling
+-----------------------------------
+
+As mentioned elsewhere, RTFP is based on FreeRTOS, and therefore, the original scheduling policy of FreeRTPOS could be used to manage tasks. FreeRTOS uses fixed priority schedling. In order to use this schedling, it is simply required to alter the priority scheme used for the tasks. While RMS requires all the tasks to have unique, monotonically increasing (or decreasing priorities), Fixed priority scheduling does not require such restrictions, multiple tasks could have the same priority, and different priorities are not assigned based on a task's period but is left for the descretion of the developer using RTFP.
 
 Creating tasks using RTFP
 ----------------------------
@@ -67,18 +74,16 @@ This function will return a struct of type AmaltheaTask. This struct will be use
 
 .. code-block:: CPP
 
-   	xTaskCreate(generalizedRTOSTak	,
-   				"TASK_IDENTIFIER"	,
-   				configMINIMAL_STACK_SIZE,	
-   				AmaltheaTask &task	,
-   				int priority,
-   				xTaskHandle handle);
+   	void createRTOSTask(AmaltheaTask* task, 
+   		int priority, 
+   		int argCount, 
+   		...);
 
-arguments
+Arguments:
 
-*	generallizedRTOSTask	: This is the RTOS task structure used to handle the start (and end) of each job of the task. This task can be configured in two ways to allow either implicit or LET (Logical Execution Time) communication semantics. 
-
-*	TASK_IDENTIFIER			: This string is normally used for tracing purposes in FreeRTOS, currently it is not being used by RTFP. 
-
-*	configMINIMAL_STACK_SIZE:
+*	task			:	pointer to the AmaltheaTask struct
+*	priority		:	priority of the task (according to RMS, lowesrt perio has highest priority)
+*	argCount		:	number of different types of labels used by this task
+*	label_type_size :	size (in bits) of label type.
+*	label_type_count:	number of labels associated with that type.
 
