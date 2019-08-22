@@ -42,7 +42,7 @@ Quick start
 
 .. code-block:: bash
 
-   sh patch_inti.sh
+   sh patch_init.sh
 
 *	run `make all` from `src/parallella`
 
