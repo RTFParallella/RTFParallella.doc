@@ -2,6 +2,8 @@
 Introduction
 ############
 
+Source coode for this project can be currently found here_. It will be merged with eclipse App4MC repository shortly.
+
 This file is intended to be an introduction that explains the main functionality of RTFParallella framework. 
 
 What is RTFParallella
@@ -33,7 +35,7 @@ Quick start
 
    sh patch_inti.sh
 
-*	run `make all`
+*	run `make all` from `src/parallella`
 
 *	set up the deployment script as in :ref:`RST parallella_deployment`.
 
@@ -52,19 +54,6 @@ This documentation will include the following:
 *	A guide showing the intended usage of the framework and how to manipulate such framework to realize the desired real time behavior. 
 *	The design of RTFP and how it could be adapted to other hardware platforms. 
 *	Limitations that should be taken into account when using RTFP. 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
