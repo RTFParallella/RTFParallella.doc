@@ -5,6 +5,8 @@ Binary deployment on Parallella
 
 This file explains the process of deplyment of software artifacts generated on a development machine to the Parallella board and running those artifacts on Parallella. 
 
+.. _RST parallella_deployment:
+
 Deployment Script
 ------------------------
 
