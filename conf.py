@@ -26,7 +26,7 @@ extensions = [
 
 # -- Project information -----------------------------------------------------
 
-project = u'rtfparallella.docs'
+project = u'RTFParallella documentation'
 copyright = u'2019, Mahmoud Bazzal'
 author = u'Mahmoud Bazzal'
 

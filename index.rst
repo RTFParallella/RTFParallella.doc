@@ -11,7 +11,9 @@ Real Time Framework Parallella : documentation
 Introduction
 ############
 
-Source coode for this project can be currently found here_. It will be merged with eclipse App4MC repository shortly.
+Source coode for this project can be currently found in the eclipse APP4MC examples repository_. Initial merge of this project with APP4MC examples repository can be found in this link_. 
+
+Soruce code is also available on GitHub_.
 
 This file is intended to be an introduction that explains the main functionality of RTFParallella framework. 
 
@@ -36,7 +38,7 @@ This project has been started in the context of Google summer of code. During Go
 Quick start
 -------------------------------------------
 
-*	Clone RTFParallella source code and examples here_.
+*	Clone RTFParallella source code and examples from the APP4MC examples repository_.
 *	Set up cross complilation environment as in :ref:`Sphinx Overview`.
 *	run `patch_init.sh`
 
@@ -100,3 +102,6 @@ Index
 .. _Amalthea : https://www.eclipse.org/app4mc/help/app4mc-0.9.4/index.html#section3.1.1
 .. _Parallella : https://www.adapteva.com/parallella/
 .. _here : https://github.com/mahmood1994ha/RTFParallella
+.. _repository : https://git.eclipse.org/c/app4mc/org.eclipse.app4mc.examples.git/
+.. _link : https://git.eclipse.org/c/app4mc/org.eclipse.app4mc.examples.git/commit/RTFParallella?id=69a0a24f120bb0d79cbd688081ca697368e252f7
+.. _GitHub : https://github.com/mahmood1994ha/RTFParallella
