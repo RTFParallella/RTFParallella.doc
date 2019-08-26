@@ -76,11 +76,13 @@ Output table values
 
 .. code-block:: CPP
 
-	user_config_print_legend(LabelVisual core_config,unsigned array[])
+	user_config_print_values(LabelVisual core_config,unsigned array[],unsigned int values_array[],unsigned int prv_val_array[])
 
 Arguments:
 
-*	core_config	:	row and column and number of visible labels for the core to be visualized. 
-*	array 		:	indices of visible labels. 
+*	core_config		:	row and column and number of visible labels for the core to be visualized. 
+*	array 			:	indices of visible labels. 
+*	values_array	:	holds values of all labels in a shared memory section. 
+
 
 
