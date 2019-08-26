@@ -47,6 +47,19 @@ The used cores are mapped on Epiphany cores as follows:
 | Core1             |         1           |           0            |
 +-------------------+---------------------+------------------------+
 
+The model has the following shared memories in separate locations. Each of the shared memory locations holds one memory section that has 10 contiguous labels of size :envvar:`unsigned int`. The shared memories are shown in the following table:
+
++-------------------------+---------------------+--------------------------+
+| Shared memory location  | Shared memory sections | section label size    |
++=========================+========================+=======================+
+| DRAM                    |         1              | `unsigned int`        |
++-------------------------+------------------------+-----------------------+
+| Core0                   |         1              | `unsigned int`        |
++-------------------------+------------------------+-----------------------+
+| Core1                   |         1              | `unsigned int`        |
++-------------------------+------------------------+-----------------------+
+
+
 RMS scheduling of the model
 ----------------------------------------
 
@@ -108,4 +121,10 @@ The task is traced within the sleep function while it runs (sleeps if there is n
 
 Example event chain implementation
 ---------------------------------------
+
+Shared and distributed shared memory management utilities described earlier are used to implement a simple task chain consisting of two tasks, a `producer` and a `consumer`. Namely, the task :envvar:`task5ms0` being the producer and the :envvar:`task10ms1` being the consumer task. They share one label in the distributed shared memory of core 1. The output of the event chain is a label in the shared memory of the parallella system. 
+
+The input to the event chain is a local label in the producer task that is inceremented by the end of each instanceof the task. This local label simulates data coming from a sensor in an automotive application. 
+
+
 
