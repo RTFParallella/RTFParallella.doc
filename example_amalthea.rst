@@ -126,5 +126,10 @@ Shared and distributed shared memory management utilities described earlier are 
 
 The input to the event chain is a local label in the producer task that is inceremented by the end of each instanceof the task. This local label simulates data coming from a sensor in an automotive application. 
 
+The event chain data propagation is shown in the following figure. Note that the consumer task :envvar:`task10ms1` is oversampling the producer task.
+
+.. image:: screenshots/example_EC.png 
+
+
 
 
