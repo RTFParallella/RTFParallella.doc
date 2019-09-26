@@ -14,7 +14,8 @@ The labels are grouped together by size in contiguous memory blocks.
 Shared memory model
 -------------------------------
 
-Shared memory address space ranges from address 0x01000000 to address 0x03FFFFFF, within this address space, all shred labels should assigned. 
+Shared memory address space spans 16 MB of the DRAM. within this address space, all shared labels should assigned.
+Shared memory between the epiphany processor and ARM host starts with address :envvar:`0x8e000000` and ends with address :envvar:`0x8f000000`.	
 
 All labels of the same type will be allocated to an array of that type. Accessing those labels can be done by simply accessing the index of the array. 
 
