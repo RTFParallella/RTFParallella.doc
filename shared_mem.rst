@@ -5,11 +5,13 @@ Shared memory management in RTFP
 Overview
 ----------------------------------
 
-Adapteva Parallella has a 1GB DRAM that is considered as shared memory, it is accessible by the Epiphany processor and the host arm processor as well. This memory will be used to store variables (labels) that are shared between tasks. 
+Adapteva Parallella has a 1GB DRAM that includes a shared section which acts as a shared memory. This section is accessible by the Epiphany processor and the host arm processor as well. This DRAM section will be used to store variables (labels) that are shared between tasks.
+
+Shared labels between tasks can also be stored on the local memories of epiphany cores. This mode of storage is discussed in the next chapter of this documentation.  
 
 shared variables are allocated in the shared memory statically. 
 
-The labels are grouped together by size in contiguous memory blocks.
+The labels are grouped together by size in contiguous memory blocks, and can be used as elemnts in an array. 
 
 Shared memory model
 -------------------------------
@@ -26,63 +28,68 @@ This figure shows the memory model of DRAM on parallella.
 Shared memory initialization and allocation in RTFP
 ------------------------------------------------------------
 
-Each shared memory section will be initialized individually. If the code using RTFP is automatically generated, initialization function will be replecated for each section. 
+Each shared memory section will be initialized individually. 
 To intialize a new shared memory section in RTFP, the following steps are required:
 
-*	Declare the section as an array of the desired type and number of labels globally Example:
+*	Declare a struct of the type :envvar:`SHM_section`, Example:
 .. code-block:: CPP
 
-   	unsigned int *outbuf_shared[10];
+   	SHM_section example_sec = {0x01000000,10,INT_32};
+
+In this example, a block of 10 labels, each of which is of size unsigned int has been declared, the base address of this section is :envvar:`0x8f000000`. Note that addresses given here are relative to the jointly accessible RAM section on the parallella and offsetted by :envvar:`0x01000000`. i.e. base adresses could range between :envvar:`0x01000000` and :envvar:`0x01ffffff`.
+
+Similarly, any other type could be declared. For label blocks that are too large to be declared as a standard C type, blocks of structs can also be declared. 
 
 
-In this example, a block of 10 labels, each of which is of size unsigned int has been declared. Similarly, any other type could be declared. For label blocks that are too large to be declared as a standard C type, blocks of structs can also be declared. 
-
-
-*	Allocate the declared memory block (array) in shared memory, example:
+*	Allocate the declared memory block (array) in shared memory using :envvar:`shm_section_init`, example:
 
 
 .. code-block:: CPP
 
-   	//allocate initial address
-	outbuf_shared[0] = (unsigned int *) shared_mem_section;
-	//allocate other addresses sequentially
-	for (int i=1;i<shared_section_label_num;i++){
-		outbuf_shared[i] = outbuf_shared[i-1] + 1;
-	}
+   	//Declare a struct with section attributes
+	SHM_section example_sec = {0x01000000,10,INT_32};
+	//allocate the section in memory
+	//and assign a pointer to it
+	unsigned int* sec_global_pointer = shm_section_init(example_sec);
 
-where shared_mem_section is a macro defined with the start address of the block to be allocated, and shared_section_label_num is the number of labels in that section.
+After performing this operation, the pointer :envvar:`sec_global_pointer` points to the base address of this section and can be used to access any value within the section by index. (similar to array accesses).
 
-shared memory access in RTFP
+Shared memory write operation in RTFP
 ----------------------------------------------------
 
-Declared memory sections in RTFP are pointers to actual memory addresses. In order to write to a given label in a section:
+Declared memory sections in RTFP are accessed by their pointers. In order to write to a given label in a section:
 
 .. code-block:: CPP
 
    	//write to shared label
-   	*outbuf_shared[index] = value;
+   	void write_shm_section (unsigned int* x, unsigned indx, int payload);
 
-Similarly to read the label:
+Where:
+*	:envvar:`x` is the pointer to the declared section.
+*	:envvar:`indx` is the index of the label being written to. Indices start from zero.
+*	:envvar:`payload' is the value to be written. 
+
+Shared memory read operation in RTFP
+----------------------------------------------------
+
+A read operation is similar to the write operationn described above. Only the section pointer and indes are needed for the access. 
 
 .. code-block:: CPP
 
-   	read_value = *outbuf_shared[index];
+   	int read_shm_section (unsigned int* x, unsigned indx);
 
-In order to access the declared memory section anywhere in the project, the read and write operations should be wrapped into functions. Example:
+Where:
+*	:envvar:`x` is the pointer to the declared section.
+*	:envvar:`indx` is the index of the label being read. Indices start from zero.
 
-.. code-block:: CPP
-
-   	uint8_t shared_label_write	(int label_indx,int payload);
-
-	unsigned int shared_label_read(int label_indx);
-
-Those functions could be replicated for different sections.
+This function returns the value of the shared label as an integer. The return type is used for simplicity 
 
 known issues
 -----------------------------------
 
-Due to the communication semantics of task to task communication in Amalthea models, a copy of every shared label will have to be created at the beginning of the task.
-However, the stack size of every task is limited and therefore on certain Amalthea models, it might be required to adjust the task's stack to prevent stack overflow.
+*	Due to the semantics of task to task communication in Amalthea models, a copy of every shared label will have to be created at the beginning of the task. However, the stack size of every task is limited and therefore on certain Amalthea models, it might be required to adjust the task's stack to prevent stack overflow.
+
+*	Access operations to the shared memory are not (yet) synchronised in RTFP. Race conditions may happen. This will be resolved in the next update of RTFP. with support for binary semaphores across cores on the Epiphany chip.
 
 
 Future developments
@@ -92,10 +99,6 @@ In the next release of RTFP, the following functionalities will be added to shar
 
 *	Allocation of memory section will be done with the use of function calls instead of creating a pointer array. Each section will have a string identifier to refer to it throughout the code.
 
-*	Read and write functions will be standardized to access shared memory sections by their identifier string. Also automatic checks on illegal accesses will be added. 
+*	Support for synchronisation between memory accesses on single core and accross multiple cores will be added. 
 
 *	Automatic allocation mechanism will be added to insure that sections are contiguous and hence avoid memory fragmentation. 
-
-
-
-
