@@ -5,11 +5,11 @@ Distributed shared memory management in RTFP
 Overview
 ----------------------------------
 
-Each core on the Epiphany processor has independent local memory which can regarded as distributed shared memory, it is accessible by other Epiphany cores and the host arm processor as well. This ditributed shared memory will be used to store variables (labels) that are shared between tasks. Also, it will be accessed regularly by the host ARM processor to get the status of the core and information on its operation at any given point in time.  
+Each core on the Epiphany processor has independent local memory which is accessible by other cores on the epiphany chip as well as the host AR< processor, and hence it can be regarded as distributed shared memory. This ditributed shared memory will be used to store variables (labels) that are shared between tasks. Additionally, it will be accessed regularly by the host ARM processor to get the status of the core and information on its operation at any given point in time.  
 
 shared variables (labels) are allocated in the distributed shared memory statically. 
 
-The labels are grouped together by size in contiguous memory blocks.
+The labels are grouped together by size in contiguous memory blocks called "sections".
 
 Distributed shared memory model
 ------------------------------------
@@ -26,31 +26,40 @@ All labels of the same type will be allocated to an array of that type. Accessin
 Distributed shared memory initialization and allocation in RTFP
 ------------------------------------------------------------------
 
-Each distributed shared memory section will be initialized individually. If the code using RTFP is automatically generated, initialization function will be replecated for each section. 
+Each distributed shared memory section will be initialized individually. If the code using RTFP is automatically generated, initialization function should be called for each section individually. 
+
 To intialize a new shared memory section in RTFP, the following steps are required:
 
-*	Declare the section as an array of the desired type and number of labels globally Example:
-.. code-block:: CPP
-
-   	unsigned int *outbuf_dstr_shared[10];
-
-
-In this example, a block of 10 labels, each of which is of size unsigned int has been declared. Similarly, any other type could be declared. For label blocks that are too large to be declared as a standard C type, blocks of structs can also be declared. 
-
-
-*	Allocate the declared memory block (array) in shared memory, example:
-
+*	Declare a struct of the type :envvar:`DSHM_section` that contains the attributes of the memory section such as base address (relative to the core address space), nummber of labels, data type of the labels, and the row and column of the core where this memory is allocated. This struct is defined in RTFP as follows:
 
 .. code-block:: CPP
 
-   	//allocate initial address
-	outbuf_dstr_shared[0] = (unsigned int *) dstr_shared_mem_section;
-	//allocate other addresses sequentially
-	for (int i=1;i<shared_section_label_num;i++){
-		outbuf_dstr_shared[i] = outbuf_dstr_shared[i-1] + 1;
-	}
+   	struct{
+		unsigned 		row;
+		unsigned 		col;
+		unsigned int 	base_addr;
+		unsigned 		label_count;
+		TYPE			sec_type;
+	}typedef DSHM_section;
 
-where dstr_shared_mem_section is a macro defined with the start address of the block to be allocated, and shared_section_label_num is the number of labels in that section.
+For instant, a section of 10 labels is declared on core (0,0) with the base address of this section at :envvar:`0x4000` as follows:
+
+.. code-block:: CPP
+
+   	DSHM_section sec1_core_00 = {0,0,0x4000,10};
+
+
+Note that even though the section type :envvar:`sec_type` is a field of the struct :envvar:`DSHM_section`, it can be omitted from the struct declaration, which indicates that the data type of this section is the default data type :envvar:`unsigned int`.
+
+*	Allocate the declared memory section in the distributed shared memory by calling the function :envvar:`DSHM_section_init`, example:
+
+.. code-block:: CPP
+
+   	DSHM_section_init(sec1_core_00);
+
+The return type of this function is void. It does not return a pointer to the memory section as is the case with shared memory. The reason for this is to allow for a more compact code that does not require calling this function to initialize a section on a core from multiple cores (including that core itself) in order to acquire the pointer to this section. 
+This issue will be fixed by the next release of RTFP parallella such that a core can notify other cores on the epiphany chip of the existence of the section being initialized. 
+This will simplify the process of distributed shared memory access accross cores. The current procedures for accessing such memory is described below. 
 
 shared memory access in RTFP
 ----------------------------------------------------
@@ -75,14 +84,16 @@ Similarly to read the label:
 	addr = (unsigned int*) ((unsigned ) addr_base | (unsigned)outbuf_dstr_shared[label_indx]);
 	return *addr;
 
-Where *addr will return the value at the requested label_indx.
+Where :envvar:`*addr` will return the value at the requested label_indx.
 
-In order to access the declared memory section anywhere in the project, the read and write operations should be wrapped into functions. Example:
+In order to access the declared memory section anywhere in the project, the functions :envvar:`write_DSHM_section` and :envvar:`read_DSHM_section` can be used, in a similar way to accessing the sharede memory. 
 
 .. code-block:: CPP
 
-   	uint8_t shared_label_write	(int label_indx,int payload);
+   	uint8_t write_DSHM_section(DSHM_section sec,int label_indx,int payload);
 
-	unsigned int shared_label_read_core (unsigned row, unsigned col, int label_indx);
+	unsigned int read_DSHM_section (DSHM_section sec, int label_indx);
 
-Those functions could be replicated for different sections.
+where :envvar:`sec` is the struct that contains the section attributes, :envvar:`label_indx` is the index of the label relative to the beginning of the section, and :envvar:`payload` is the value to be written to memory (if any).
+
+The read function currently returns the value stored in the memory address as an :envvar:`unsigned int` by default. This will be changed in the next release of RTFP to allow for returning a type that is conformant with the memory section data type. 

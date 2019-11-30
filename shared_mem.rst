@@ -65,9 +65,12 @@ Declared memory sections in RTFP are accessed by their pointers. In order to wri
    	void write_shm_section (unsigned int* x, unsigned indx, int payload);
 
 Where:
+
 *	:envvar:`x` is the pointer to the declared section.
+
 *	:envvar:`indx` is the index of the label being written to. Indices start from zero.
-*	:envvar:`payload' is the value to be written. 
+
+*	:envvar:`payload` is the value to be written. 
 
 Shared memory read operation in RTFP
 ----------------------------------------------------
@@ -79,7 +82,9 @@ A read operation is similar to the write operationn described above. Only the se
    	int read_shm_section (unsigned int* x, unsigned indx);
 
 Where:
+
 *	:envvar:`x` is the pointer to the declared section.
+
 *	:envvar:`indx` is the index of the label being read. Indices start from zero.
 
 This function returns the value of the shared label as an integer. The return type is used for simplicity 

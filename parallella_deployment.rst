@@ -10,7 +10,7 @@ This file explains the process of deplyment of software artifacts generated on a
 Deployment Script
 ------------------------
 
-The deplyment script can be found under
+The deplyment script can be found in the root folder of RTFParallella
 
 .. code-block:: bash
 
@@ -31,7 +31,7 @@ The deployment script has the following parameters. Those parameters are to be c
 Invocation of Deployemnt script
 --------------------------------------
 
-This script has one argument that must be passed when it is invoked. Namely, the file which should be deployed.
+This script must have at least one argument that must be passed when it is invoked. Namely, the file which should be deployed, any number of files is allowed, arguments (files' names) must be separated by a space.
 
 This script will be called automatically by eclipse once the launch configuration is set up. 
 
