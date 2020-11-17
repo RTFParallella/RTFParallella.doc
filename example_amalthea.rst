@@ -1,5 +1,5 @@
 ###################################################
-Example amalthea model
+Scheduling example
 ###################################################
 
 This page describes the example amalthea model implemented in RTFP. 

@@ -32,6 +32,7 @@ Each shared memory section will be initialized individually.
 To intialize a new shared memory section in RTFP, the following steps are required:
 
 *	Declare a struct of the type :envvar:`SHM_section`, Example:
+
 .. code-block:: CPP
 
    	SHM_section example_sec = {0x01000000,10,INT_32};
